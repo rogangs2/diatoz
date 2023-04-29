@@ -1,0 +1,64 @@
+<turbo-frame id="dashboard-body">
+  <%#  create_post_button %>
+  <% if session[:user_type] == 'author'%>
+    <header aria-label="Site Header" class="flex spae-y-2 border-b">
+      <div class="flex flex-col">
+        <div class="flex space-x-2 flex-col">
+          <h1 class="text-gray-700 m-2 text-xl font-semibold">
+            Blog Name: <%= @blog.name %>
+          </h1>
+          <h1 class="text-gray-700 text-xl font-semibold">
+           Description: <%= @blog.description %>
+          </h1>
+        </div>
+        <div class="flex h-16 max-w-screen-2xl lg:px-8">
+          <div class="flex m-2 gap-4">
+              <span class="flex items-center justify-center p-4 inline-block h-10 w-32 rounded-lg bg-gray-200">
+                <%= link_to "Create Post", new_blog_post_path(blog_id: @blog.id), method: :get, data: {"turbo-frame" => "dashboard-body" }  %>
+              </span>
+          </div>
+          <div class="flex m-2 gap-4">
+              <span class="flex items-center justify-center p-4 inline-block h-10 w-40 rounded-lg bg-gray-200">
+                <%= link_to "Edit blog details", edit_blog_path(id: @blog.id), data: {"turbo-frame" => "dashboard-body" }  %>
+              </span>
+          </div>
+          <div class="flex m-2 gap-4">
+              <span class="flex items-center justify-center p-4 inline-block h-10 w-32 rounded-lg bg-gray-200">
+                <%= link_to "Delete blog", blog_path(id: @blog.id), method: :delete, data: {"turbo-frame" => "dashboard-body" }  %>
+              </span>
+          </div>
+        </div>
+      </div>
+    </header>
+  <% end %>
+
+  <%#  display_posts %>
+  <div class="flex space-x-2 flex-col">
+    <% @posts.each do |post| %>
+      <div class="m-2 space-y-6 bg-white shadow-lg rounded-lg"><!--horizantil margin is just for display-->
+        <div class="flex  px-4 py-6">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <h2 class="text-lg font-semibold text-gray-900 -mt-1"><%= post.name %> </h2>
+              <small class="text-sm text-gray-700"></small>
+            </div>
+            <p class="mt-3 text-gray-700 text-sm">
+              <%= post.content %>
+            </p>
+            <div class="mt-4 flex items-center space-y-2">
+              <div class="flex mr-2 text-gray-700 text-sm mr-8">
+                <svg fill="none" viewBox="0 0 24 24" class="w-4 h-4 mr-1" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
+                </svg>
+                <span><%= link_to "comments", post_comments_path(post_id: post.id), method: :get, data: {"turbo-frame" => "#{post.id}"} %> </span>
+              </div>
+            </div>
+            <%= turbo_frame_tag post.id, class: "space-y-2"  do %>
+
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</turbo-frame>

@@ -1,0 +1,2 @@
+module SubscriberDashboardHelper
+end

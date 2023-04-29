@@ -1,0 +1,32 @@
+<%= turbo_frame_tag @post_id  do %>
+  <div class="flex antialiased">
+    <div class="basis-4/5 space-y-4">
+      <% @comments.each do |comment| %>
+        <div class="flex grow">
+          <div class="border rounded-lg px-4 py-2 leading-relaxed">
+            <div class="space-y-4">
+              <div>
+                <div class="flex-auto w-full bg-gray-100 rounded-lg px-4 py-2 leading-relaxed">
+                  <strong><%= comment.content %> </strong><span class="text-xs text-gray-400"></span>
+                  <p class="text-xs sm:text-sm">
+                    commented_by: <%= comment.subscriber.email %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <% if session[:user_type] == 'subscriber' %>
+        <%= form_with model: Comment, url: post_comments_path(post_id: @post_id), method: :post, class: "bg-white" do |form| %>
+          <div>
+            <%= form.text_area :content, placeholder: "comment", class: "w-full rounded-lg border-gray-200 p-3 text-sm" %><br>
+          </div>
+          <div class="flex justify-end px-4">
+            <%= form.submit "comment", class: "px-2.5 py-1.5 rounded-md text-white text-sm bg-indigo-500" %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

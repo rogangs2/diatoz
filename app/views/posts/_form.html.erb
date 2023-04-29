@@ -1,0 +1,23 @@
+<%= form_with model: post, url: url do |form| %>
+  <div class="space-y-4">
+    <div>
+      <label for="post" class="block text-sm text-gray-500 dark:text-gray-300 space-y-4">Post name</label>
+      <%= form.text_field :name, { class: "w-full rounded-lg border-gray-200 p-3 text-sm"} %>
+    </div>
+
+    <div>
+      <label for="content" class="block text-sm text-gray-500 dark:text-gray-300 space-y-4">Content</label>
+      <%= form.text_area :content, { class: "w-full rounded-lg border-gray-200 p-3 text-sm"} %><br>
+    </div>
+  <div>
+
+  <div>
+    <%= form.hidden_field :author_id, value: author_id %>
+    <%= form.hidden_field :blog_id, value: blog_id %>
+  </div>
+
+  <div class="flex flex-row justify-between">
+    <%= form.submit 'Submit', :class => "flex inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto" %>
+    <%= link_to 'Back', blog_posts_path(blog_id: blog_id), method: :get ,:class => "flex inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto" %>
+  </div>
+<% end %>

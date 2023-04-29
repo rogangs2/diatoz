@@ -1,0 +1,48 @@
+<%= turbo_frame_tag "dashboard-body" do %>
+  <% @posts_comments_data.each do |post| %>
+    <% post.comments.each do |comment| %>
+      <% if comment.approved == false %>
+        <div class="antialiased max-w-screen-sm">
+          <div class="space-y-4">
+              <div class="flex">
+                <div class="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+                  <div class="space-y-4">
+                    <strong>Post Name: <%= post.name %></strong> <span class="text-xs text-gray-400"></span>
+                    <div class="flex">
+                      <div class="flex-1 bg-gray-100 ">
+                        <p class="text-xs sm:text-sm rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+                          <%= comment.content %>
+                          <br>
+                          <br>
+                          commented_by: <%= comment.subscriber.email  %>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex space-x-4">
+                      <div class="flex items-center justify-center gap-4">
+                        <span class="flex items-center ustify-center p-4 inline-block h-10 rounded-lg bg-gray-200">
+                          <%= button_to "Approve Comment", post_comment_path(post_id: post.id, id: comment.id), method: :patch, data: {"turbo-frame" => "dashboard-body" }  %>
+                        </span>
+                      </div>
+                      <div class="flex items-center justify-center gap-4">
+                        <span class="flex items-center ustify-center p-4 inline-block h-10 rounded-lg bg-gray-200">
+                          <%= button_to "Delete Comment", post_comment_path(post_id: post.id, id: comment.id), method: :delete, data: {"turbo-frame" => "dashboard-body" }  %>
+                        </span>
+                      </div>
+                      <div class="flex items-center justify-center gap-4">
+                        <% id = comment.subscriber.id %>
+                        <span class="flex items-center ustify-center p-4 inline-block h-10 rounded-lg bg-gray-200">
+                          <%= button_to "Block Subscriber", block_subscriber_path, method: post, params: { id: id}, data: {"turbo-frame" => "dashboard-body" }  %>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

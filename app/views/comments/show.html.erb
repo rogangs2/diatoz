@@ -1,0 +1,20 @@
+<%= turbo_frame_tag post.id  do %>
+  <% @comments.each do |comment| %>
+    <div class="mt-4 flex items-center">
+      <div class="flex mr-2 text-gray-700 text-sm mr-8">
+        <span><%= link_to "comments", post_comments_path(post_id: post.id)%> </span>
+      </div>
+    </div>
+  <% end %>
+
+  <% if current_user.subscriber? %>
+    <%= form_with model: Comment, url: post_comments_path(post_id: post.id), method: :post, class: "bg-white rounded-lg border p-2" do |form| %>
+      <div>
+        <%= form.text_area :content, html: { placeholder: "comment", class: "w-full bg-gray-100 rounded border border-gray-400 leading-normal resize-none h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"} %><br>
+      </div>
+      <div class="flex justify-end px-4">
+        <%= form.submit "comment", class: "px-2.5 py-1.5 rounded-md text-white text-sm bg-indigo-500" %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
